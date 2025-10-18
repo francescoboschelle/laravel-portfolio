@@ -10,7 +10,11 @@
                 Elimina
             </button>
         </div>
-        <small>Per: {{ $project->client }}<br>Creato il: {{ $project->date }}</small>
+        <small>
+            Per: {{ $project->client }}<br>
+            Creato il: {{ $project->date }}<br>
+            Tipo: {{ $project->type->name ?? 'Sconosciuto' }}
+        </small>
         <hr>
         <p>{{ $project->summary }}</p>
     </div>
