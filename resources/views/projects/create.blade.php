@@ -35,6 +35,17 @@
                 </div>
 
                 <div class="col-12">
+                    @foreach ($technologies as $technology)
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" name="technologies[]"
+                                id="technology-{{ $technology->id }}" value="{{ $technology->id }}" />
+                            <label class="form-check-label"
+                                for="technology-{{ $technology->id }}">{{ $technology->name }}</label>
+                        </div>
+                    @endforeach
+                </div>
+
+                <div class="col-12">
                     <label for="summaryInput" class="form-label">Riassunto</label>
                     <textarea class="form-control" name="summary" id="summaryInput" rows="3" required
                         placeholder="Inserisci un riassunto..."></textarea>

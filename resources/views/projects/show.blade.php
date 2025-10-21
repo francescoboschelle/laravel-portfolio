@@ -13,7 +13,14 @@
         <small>
             Per: {{ $project->client }}<br>
             Creato il: {{ $project->date }}<br>
-            Tipo: {{ $project->type->name ?? 'Sconosciuto' }}
+            Tipo: {{ $project->type->name ?? 'Sconosciuto' }}<br>
+            @forelse ($project->technologies as $technology)
+                <span class="badge" style="background-color: {{ $technology->color }}">
+                    {{ $technology->name }}
+                </span>
+            @empty
+                Nessuna Tecnologia
+            @endforelse
         </small>
         <hr>
         <p>{{ $project->summary }}</p>

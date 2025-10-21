@@ -31,10 +31,22 @@
                     <select class="form-select" name="type_id" id="typeInput" required>
                         <option {{ $project->type_id == null ? 'selected' : '' }}>Seleziona...</option>
                         @foreach ($types as $type)
-                            <option value="{{ $types->id }}" {{ $project->type_id == $type->id ? 'selected' : '' }}>
+                            <option value="{{ $type->id }}" {{ $project->type_id == $type->id ? 'selected' : '' }}>
                                 {{ $type->name }}</option>
                         @endforeach
                     </select>
+                </div>
+
+                <div class="col-12">
+                    @foreach ($technologies as $technology)
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" name="technologies[]"
+                                id="technology-{{ $technology->id }}" value="{{ $technology->id }}"
+                                {{ $project->technologies->contains($technology->id) ? 'checked' : '' }} />
+                            <label class="form-check-label"
+                                for="technology-{{ $technology->id }}">{{ $technology->name }}</label>
+                        </div>
+                    @endforeach
                 </div>
 
                 <div class="col-12">

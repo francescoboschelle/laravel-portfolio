@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Project;
+use App\Models\Technology;
 use App\Models\Type;
 use Illuminate\Http\Request;
 
@@ -25,8 +26,9 @@ class ProjectController extends Controller
     public function create()
     {
         $types = Type::all();
+        $technologies = Technology::all();
 
-        return view('projects.create', compact("types"));
+        return view('projects.create', compact(["types", "technologies"]));
     }
 
     /**
@@ -44,6 +46,10 @@ class ProjectController extends Controller
         $newProject->summary = $data['summary'];
 
         $newProject->save();
+
+        if ($request->has('technologies')) {
+            $newProject->technologies()->attach($data["technologies"]);
+        }
 
         return redirect()->route("projects.show", $newProject);
     }
@@ -64,8 +70,9 @@ class ProjectController extends Controller
     public function edit(Project $project)
     {
         $types = Type::all();
+        $technologies = Technology::all();
 
-        return view("projects.edit", compact(["project", "types"]));
+        return view("projects.edit", compact(["project", "types", 'technologies']));
     }
 
     /**
@@ -82,6 +89,14 @@ class ProjectController extends Controller
         $project->summary = $data['summary'];
 
         $project->update();
+
+        if($request->has('technologies')) {
+            // sincronizziamo i tags nella tabella pivot
+            $project->technologies()->sync($data['technologies']);
+        } else {
+            // se non riceviamo i tags, allora li eliminiamo tutti
+            $project->technologies()->detach();
+        }
 
         return redirect()->route("projects.show", $project);
     }
